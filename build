@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ghc -dynamic main.hs -o bin/pparse
