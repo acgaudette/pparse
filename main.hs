@@ -23,7 +23,7 @@ search inFile outFile = do
       if null $ check line
         then search inFile outFile
         else do
-          hPutStrLn outFile $ struct $ check line
+          hPutStrLn outFile $ struct 2 $ check line
           readProps inFile outFile
 
 -- Look for desired object title keywords
@@ -40,7 +40,7 @@ readProps inFile outFile = do
   if isSubsequenceOf "}" line
     -- We're done, go back to searching
     then do
-      hPutStrLn outFile "}"
+      hPutStrLn outFile (tab 2 ++ "}")
       search inFile outFile
     -- Read and write property
     else do
@@ -62,14 +62,16 @@ mkProp prop =
 
 -- String literals
 
-header = "namespace AutoToon.Character {\n"
-  ++ struct "InitProperties"
 tab count = concat $ replicate count "  "
 endl = "\n"
 
+header = "namespace AutoToon.Character {" ++ endl
+  ++ struct 1 "InitProperties"
 
 struct indent name =
   tab indent ++ "[System.Serializable]" ++ endl
   ++ tab indent ++ "public struct " ++ name ++ " {"
 
-footer = "}\n}"
+float = tab 3 ++ "public float "
+
+footer = tab 1 ++ "}" ++ endl ++ "}"
