@@ -175,10 +175,11 @@ munge ignore =
 toCamel name =
   if null name
     then ""
-  else if head name == ' '
+  else if char == ' '
     then toUpper (head remainder) : toCamel (tail remainder)
-  else head name : toCamel remainder
-    where remainder = tail name
+  else char : toCamel remainder
+    where char = head name
+          remainder = tail name
 
 -- C# string functions --
 
