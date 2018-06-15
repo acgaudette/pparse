@@ -84,21 +84,14 @@ genFields tokens =
   case head tokens of
     Name name -> (genName name ++ fst result, snd result)
       where result = genFields (tail tokens)
-    Value def min max -> ((genValue def min max) ++ fst result, snd result)
+    Value def min max -> ((mkField def min max) ++ fst result, snd result)
       where result = genFields (tail tokens)
-    Close -> (genClose, tail tokens)
+    Close -> (mkClose, tail tokens)
 
 genName name =
   if name == "knees forward"
     then ""
   else mkFloat ++ toCamel name
-
-genValue def min max =
-  " = " ++ def ++ "f;"
-  ++ " // (" ++ min ++ ", " ++ max ++ ")"
-  ++ endl
-
-genClose = tab 2 ++ "}" ++ endl
 
 toCamel name =
   if null name
@@ -113,9 +106,17 @@ tab count = concat $ replicate count "  "
 
 header = "namespace AutoToon.Character {" ++ endl
   ++ mkClass 1 "Properties"
-footer = tab 1 ++ "}" ++ endl ++ "}" ++ endl
 
-mkFloat = tab 3 ++ "public float "
+footer = tab 1 ++ "}" ++ endl ++ "}" ++ endl
 
 mkClass indent name = tab indent ++ "[System.Serializable]" ++ endl
   ++ tab indent ++ "public class " ++ name ++ " {" ++ endl
+
+mkFloat = tab 3 ++ "public float "
+
+mkField def min max =
+  " = " ++ def ++ "f;"
+  ++ " // (" ++ min ++ ", " ++ max ++ ")"
+  ++ endl
+
+mkClose = tab 2 ++ "}" ++ endl
