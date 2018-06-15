@@ -214,7 +214,6 @@ mkClass indent name = endl
   ++ tab indent ++ "[System.Serializable]" ++ endl
   ++ tab indent ++ "public class " ++ name ++ " {" ++ endl
 
-mkFloat = tab 3 ++ "public float "
 mkRange min max = tab 3
   ++ "[Range(" ++ min ++ "f, " ++ max ++ "f)] "
 
@@ -222,5 +221,6 @@ mkField def min max =
   " = " ++ def ++ "f;"
   ++ " // (" ++ min ++ ", " ++ max ++ ")"
   ++ endl
+mkFloat = "public float "
 
 mkClose = tab 2 ++ "}" ++ endl
