@@ -39,7 +39,7 @@ options = [
       ReqArg (\ name options -> options { optContainer = Just name })
       "container"
     ) "container for output class"
-  , Option ['l'] ["include"] (
+  , Option ['L'] ["include"] (
       ReqArg (\ include options ->
         options { optIncludes = optIncludes options ++ [include] })
       "include"
