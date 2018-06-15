@@ -93,8 +93,18 @@ scan text =
   where remainder = tail text
 
 parseName text =
-  [Name (fst result)] ++ scan (snd result)
-    where result = scanName text
+  [fst result] ++ scan (snd result)
+    where result = detect $ scanName text
+
+detect scanned =
+  case head text of
+    '{' -> (Container input, remainder)
+    ' ' -> detect (input, remainder) -- Skip
+    ':' -> detect (input, remainder) -- Skip
+    _ -> (Field input, text) -- Reuse char in scan
+  where input = fst scanned
+        text = snd scanned
+        remainder = tail text
 
 scanName text =
   if char == '\''
