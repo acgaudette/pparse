@@ -8,6 +8,7 @@ data Options = Options {
   , optOutput :: String
   , optNamespace :: Maybe String
   , optContainer :: Maybe String
+  , optIncludes :: [String]
   , optIgnores :: [String]
   , optCherries :: [String]
 }
@@ -17,6 +18,7 @@ defaultOptions = Options {
   , optOutput = "out.cs"
   , optNamespace = Nothing
   , optContainer = Nothing
+  , optIncludes = []
   , optIgnores = []
   , optCherries = []
 }
@@ -38,6 +40,11 @@ options = [
       ReqArg (\ name options -> options { optContainer = Just name })
       "container"
     ) "container for output class"
+  , Option ['l'] ["include"] (
+      ReqArg (\ include options ->
+        options { optIncludes = optIncludes options ++ [include] })
+      "include"
+    ) "using directive for output header"
   , Option ['I'] ["ignore"] (
       ReqArg (\ name options ->
         options { optIgnores = optIgnores options ++ [name] })
