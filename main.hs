@@ -18,6 +18,9 @@ data Token = Name String
            | Value String String String
            | Close
 
+parse text =
+  header ++ generate (scan text) ++ footer
+
 toCamel name =
   if null name
     then ""
