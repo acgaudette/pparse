@@ -139,13 +139,17 @@ generate tokens ignores cherries =
   if null tokens
     then ""
     else case head tokens of
-genClass name remainder =
-  if name == "upper body" || name == "lower body"
-    then mkClass 2 (toCamel name) ++ fst fields ++ generate (snd fields)
-    else "" ++ generate remainder
-      where fields = genFields remainder
       Name name -> genClass name (tail tokens) ignores cherries
       otherwise -> generate (tail tokens) ignores cherries -- Skip
+
+genClass name remainder ignores cherries =
+  if elem name (map munge cherries)
+    then
+      mkClass 2 (toCamel name)
+      ++ fst fields
+      ++ generate (snd fields) ignores cherries
+    else "" ++ generate remainder ignores cherries
+      where fields = genFields remainder ignores
 
 genFields tokens ignores =
   case head tokens of
@@ -155,8 +159,8 @@ genFields tokens ignores =
       where result = genFields (tail tokens) ignores
     Close -> (mkClose, tail tokens)
 
-genName name =
-  if name == "knees forward" then "" -- Ignore (FIXME)
+genName name ignores =
+  if elem name (map munge ignores) then "" -- Skip ignored names
   else mkFloat ++ toCamel name
 
 -- Replace underscore with space
