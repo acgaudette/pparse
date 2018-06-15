@@ -25,17 +25,19 @@ scan text =
   if null text
     then []
   else if char == '\''
-    then parseName (scanName remainder)
+    then parseName remainder
   else if char == '['
-    then parseValue (scanValue remainder)
+    then parseValue remainder
   else if char == '}'
     then [Close] ++ scan remainder
   else scan remainder
     where char = head text
           remainder = tail text
 
-parseName result =
+parseName text =
   [Name (fst result)] ++ scan (snd result)
+    where result = scanName text
+
 scanName text =
   if char == '\''
     then ("", tail text)
@@ -43,17 +45,21 @@ scanName text =
       where char = head text
             result = scanName $ tail text
 
-parseValue result =
+parseValue text =
   [Value (numbers !! 0) (numbers !! 1) (numbers !! 2)] ++ scan (snd result)
-    where numbers = fst result
+    where result = scanValue text
+          numbers = fst result
+
 scanValue text =
   if head text == ']'
     then ([], tail text)
-  else parseNumber (scanNumber text)
+  else parseNumber text
 
-parseNumber result =
-  ([fst result] ++ fst new, snd new)
-    where new = scanValue $ snd result
+parseNumber text =
+  ([fst result] ++ fst next, snd next)
+    where result = scanNumber text
+          next = scanValue $ snd result
+
 scanNumber text =
   if char == ','
     then ("", remainder)
