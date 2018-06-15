@@ -159,6 +159,14 @@ genName name =
   if name == "knees forward" then "" -- Ignore (FIXME)
   else mkFloat ++ toCamel name
 
+-- Replace underscore with space
+munge ignore =
+  if null ignore then ""
+  else if char == '_' then ' ' : munge remainder
+  else char : munge remainder
+    where char = head ignore
+          remainder = tail ignore
+
 -- No case to camel case conversion
 toCamel name =
   if null name
