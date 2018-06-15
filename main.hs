@@ -215,6 +215,8 @@ mkClass indent name = endl
   ++ tab indent ++ "public class " ++ name ++ " {" ++ endl
 
 mkFloat = tab 3 ++ "public float "
+mkRange min max = tab 3
+  ++ "[Range(" ++ min ++ "f, " ++ max ++ "f)] "
 
 mkField def min max =
   " = " ++ def ++ "f;"
