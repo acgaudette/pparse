@@ -194,7 +194,8 @@ header namespace =
 
 footer = tab 1 ++ "}" ++ endl ++ "}" ++ endl
 
-mkClass indent name = tab indent ++ "[System.Serializable]" ++ endl
+mkClass indent name = endl
+  ++ tab indent ++ "[System.Serializable]" ++ endl
   ++ tab indent ++ "public class " ++ name ++ " {" ++ endl
 
 mkFloat = tab 3 ++ "public float "
