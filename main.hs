@@ -55,11 +55,8 @@ main = do
   opts <- getOptions args
 
   let Options {
-    optInput = inPath,
-    optOutput = outPath,
-    optNamespace = namespace,
-    optIgnores = ignores,
-    optCherries = cherries
+      optInput = inPath
+    , optOutput = outPath
   } = opts
 
   input <- openFile inPath ReadMode
