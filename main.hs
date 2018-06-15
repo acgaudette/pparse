@@ -49,6 +49,21 @@ scanValue text =
     then ([], tail text)
   else parseNumber (scanNumber text)
 
+parseNumber result =
+  ([fst result] ++ fst new, snd new)
+    where new = scanValue $ snd result
+scanNumber text =
+  if char == ','
+    then ("", remainder)
+  else if char == ']'
+    then ("", text)
+  else if char == ' '
+    then scanNumber remainder
+  else (char : fst result, snd result)
+    where char = head text
+          remainder = tail text
+          result = scanNumber $ remainder
+
 generate tokens =
   if null tokens
     then ""
