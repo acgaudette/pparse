@@ -14,6 +14,14 @@ main = do
   hClose input
   hClose output
 
+toCamel name =
+  if null name
+    then ""
+  else if head name == ' '
+    then toUpper (head remainder) : toCamel (tail remainder)
+  else head name : toCamel remainder
+    where remainder = tail name
+
 endl = "\n"
 tab count = concat $ replicate count "  "
 
