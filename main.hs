@@ -74,6 +74,11 @@ generate tokens =
       Value _ _ _ -> generate (tail tokens) -- Ignore
       Close -> generate (tail tokens) -- Ignore
 
+genName name =
+  if name == "knees forward"
+    then ""
+  else mkFloat ++ toCamel name
+
 toCamel name =
   if null name
     then ""
