@@ -13,3 +13,15 @@ main = do
 
   hClose input
   hClose output
+
+endl = "\n"
+tab count = concat $ replicate count "  "
+
+header = "namespace AutoToon.Character {" ++ endl
+  ++ mkClass 1 "Properties"
+footer = tab 1 ++ "}" ++ endl ++ "}" ++ endl
+
+mkFloat = tab 3 ++ "public float "
+
+mkClass indent name = tab indent ++ "[System.Serializable]" ++ endl
+  ++ tab indent ++ "public class " ++ name ++ " {" ++ endl
