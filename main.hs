@@ -160,14 +160,18 @@ genClass name remainder opts =
 
 genFields tokens ignores =
   case head tokens of
-    Field name -> (genField name ignores ++ fst result, snd result)
-    Value def min max -> ((mkField def min max) ++ fst result, snd result)
+    Field name -> (genField name next ignores ++ fst result, snd result)
+    Value def _ _ -> (mkField def ++ fst result, snd result)
     Close -> (mkClose, tail tokens)
   where result = genFields (tail tokens) ignores
+        next = head $ tail tokens
 
-genField name ignores =
+genField name next ignores =
   if elem name (map munge ignores) then "" -- Skip ignored names
-  else mkFloat ++ toCamel name
+  else case next of
+    Value _ min max -> mkRange min max ++ field
+    _ -> tab 3 ++ field
+  where field = mkFloat ++ toCamel name
 
 -- Replace underscore with space
 munge ignore =
