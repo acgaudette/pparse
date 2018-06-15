@@ -66,7 +66,7 @@ main = do
   output <- openFile outPath WriteMode
 
   contents <- hGetContents input
-  hPutStr output (parse contents)
+  hPutStr output (parse contents namespace ignores cherries)
 
   hClose input
   hClose output
@@ -75,7 +75,8 @@ data Token = Name String -- Property or container identifier
            | Value String String String -- Property value
            | Close -- Closing brace
 
-parse text = header ++ generate (scan text) ++ footer
+parse text namespace ignores cherries =
+  header namespace ++ generate (scan text) ignores cherries ++ footer
 
 -- Scanning --
 
@@ -134,25 +135,24 @@ parseClose text = [Close] ++ scan text
 
 -- Generation --
 
-generate tokens =
+generate tokens ignores cherries =
   if null tokens
     then ""
     else case head tokens of
-      Name name -> genClass name (tail tokens)
-      otherwise -> generate (tail tokens) -- Skip
-
 genClass name remainder =
   if name == "upper body" || name == "lower body"
     then mkClass 2 (toCamel name) ++ fst fields ++ generate (snd fields)
     else "" ++ generate remainder
       where fields = genFields remainder
+      Name name -> genClass name (tail tokens) ignores cherries
+      otherwise -> generate (tail tokens) ignores cherries -- Skip
 
-genFields tokens =
+genFields tokens ignores =
   case head tokens of
-    Name name -> (genName name ++ fst result, snd result)
-      where result = genFields (tail tokens)
+    Name name -> (genName name ignores ++ fst result, snd result)
+      where result = genFields (tail tokens) ignores
     Value def min max -> ((mkField def min max) ++ fst result, snd result)
-      where result = genFields (tail tokens)
+      where result = genFields (tail tokens) ignores
     Close -> (mkClose, tail tokens)
 
 genName name =
