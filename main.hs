@@ -64,6 +64,8 @@ mkProp prop =
 
 header = "namespace AutoToon.Character {\n"
   ++ struct "InitProperties"
+tab count = concat $ replicate count "  "
+endl = "\n"
 
 struct name = "[System.Serializable]\n"
   ++ "public struct " ++ name ++ " {"
