@@ -14,12 +14,13 @@ main = do
   hClose input
   hClose output
 
-data Token = Name String
-           | Value String String String
-           | Close
+data Token = Name String -- Property or container identifier
+           | Value String String String -- Property value
+           | Close -- Closing brace
 
-parse text =
-  header ++ generate (scan text) ++ footer
+parse text = header ++ generate (scan text) ++ footer
+
+-- Scanning --
 
 scan text =
   if null text
@@ -30,7 +31,7 @@ scan text =
     then parseValue remainder
   else if char == '}'
     then parseClose remainder
-  else scan remainder
+  else scan remainder -- Skip
     where char = head text
           remainder = tail text
 
@@ -64,8 +65,8 @@ scanNumber text =
   if char == ','
     then ("", remainder)
   else if char == ']'
-    then ("", text)
-  else if char == ' '
+    then ("", text) -- Go straight back to ScanValue
+  else if char == ' ' -- Ignore spaces
     then scanNumber remainder
   else (char : fst result, snd result)
     where char = head text
@@ -74,13 +75,14 @@ scanNumber text =
 
 parseClose text = [Close] ++ scan text
 
+-- Generation --
+
 generate tokens =
   if null tokens
     then ""
     else case head tokens of
       Name name -> genClass name (tail tokens)
-      Value _ _ _ -> generate (tail tokens) -- Ignore
-      Close -> generate (tail tokens) -- Ignore
+      otherwise -> generate (tail tokens) -- Skip
 
 genClass name remainder =
   if name == "upper body" || name == "lower body"
@@ -97,10 +99,10 @@ genFields tokens =
     Close -> (mkClose, tail tokens)
 
 genName name =
-  if name == "knees forward"
-    then ""
+  if name == "knees forward" then "" -- Ignore (FIXME)
   else mkFloat ++ toCamel name
 
+-- No case to camel case conversion
 toCamel name =
   if null name
     then ""
@@ -108,6 +110,8 @@ toCamel name =
     then toUpper (head remainder) : toCamel (tail remainder)
   else head name : toCamel remainder
     where remainder = tail name
+
+-- C# string functions --
 
 endl = "\n"
 tab count = concat $ replicate count "  "
