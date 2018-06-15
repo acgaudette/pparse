@@ -21,6 +21,17 @@ data Token = Name String
 parse text =
   header ++ generate (scan text) ++ footer
 
+scan text =
+  if null text
+    then []
+  else if char == '\''
+    then parseName (scanName remainder)
+  else if char == '['
+    then parseValue (scanValue remainder)
+  else scan remainder
+    where char = head text
+          remainder = tail text
+
 toCamel name =
   if null name
     then ""
