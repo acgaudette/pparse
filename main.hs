@@ -129,16 +129,14 @@ parseNumber text =
           next = scanValue $ snd result
 
 scanNumber text =
-  if char == ','
-    then ("", remainder)
-  else if char == ']'
-    then ("", text) -- Reuse char in scanValue
-  else if char == ' ' -- Ignore spaces
-    then scanNumber remainder
-  else (char : fst result, snd result)
-    where char = head text
-          remainder = tail text
-          result = scanNumber $ remainder
+  case char of
+    ',' -> ("", remainder)
+    ']' -> ("", text) -- Reuse char in scanValue
+    ' ' -> scanNumber remainder
+    _ -> (char : fst result, snd result)
+  where char = head text
+        remainder = tail text
+        result = scanNumber $ remainder
 
 parseClose text = [Close] ++ scan text
 
