@@ -32,6 +32,15 @@ scan text =
     where char = head text
           remainder = tail text
 
+parseName result =
+  [Name (fst result)] ++ scan (snd result)
+scanName text =
+  if char == '\''
+    then ("", tail text)
+    else (char : fst result, snd result)
+      where char = head text
+            result = scanName $ tail text
+
 generate tokens =
   if null tokens
     then ""
