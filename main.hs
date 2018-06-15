@@ -74,9 +74,10 @@ main = do
   hClose input
   hClose output
 
-data Token = Name String -- Property or container identifier
-           | Value String String String -- Property value
-           | Close -- Closing brace
+data Token = Container String
+           | Field String
+           | Value String String String
+           | Close
 
 parse text opts = header opts ++ generate (scan text) opts ++ footer
 
