@@ -154,7 +154,7 @@ generate tokens opts =
 genClass name remainder opts =
   if elem name (map munge (optCherries opts))
     then
-      mkClass 2 (toCamel name)
+      mkClass 2 (toPascal name)
       ++ fst fields
       ++ generate (snd fields) opts
     else "" ++ generate remainder opts
@@ -179,6 +179,9 @@ munge ignore =
   else char : munge remainder
     where char = head ignore
           remainder = tail ignore
+
+-- No case to pascal case conversion
+toPascal name = toUpper (head name) : toCamel (tail name)
 
 -- No case to camel case conversion
 toCamel name =
