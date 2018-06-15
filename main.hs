@@ -44,6 +44,12 @@ options = [
     ) "container name to parse"
   ]
 
+getOptions args =
+  case getOpt Permute options args of
+    (o, _, []) -> return (foldl (flip id) defaultOptions o)
+    (_, _, e ) -> ioError (userError (concat e ++ usageInfo message options))
+  where message = "Usage: pparse [option...]"
+
 main = do
   input <- openFile inPath ReadMode
   output <- openFile outPath WriteMode
