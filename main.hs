@@ -41,6 +41,14 @@ scanName text =
       where char = head text
             result = scanName $ tail text
 
+parseValue result =
+  [Value (numbers !! 0) (numbers !! 1) (numbers !! 2)] ++ scan (snd result)
+    where numbers = fst result
+scanValue text =
+  if head text == ']'
+    then ([], tail text)
+  else parseNumber (scanNumber text)
+
 generate tokens =
   if null tokens
     then ""
