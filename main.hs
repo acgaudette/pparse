@@ -63,7 +63,7 @@ main = do
   output <- openFile outPath WriteMode
 
   contents <- hGetContents input
-  hPutStr output (parse contents namespace ignores cherries)
+  hPutStr output (parse contents opts)
 
   hClose input
   hClose output
@@ -72,8 +72,8 @@ data Token = Name String -- Property or container identifier
            | Value String String String -- Property value
            | Close -- Closing brace
 
-parse text namespace ignores cherries =
-  header namespace ++ generate (scan text) ignores cherries ++ footer
+parse text opts =
+  header (optNamespace opts) ++ generate (scan text) opts ++ footer
 
 -- Scanning --
 
