@@ -74,6 +74,20 @@ generate tokens =
       Value _ _ _ -> generate (tail tokens) -- Ignore
       Close -> generate (tail tokens) -- Ignore
 
+genClass name remainder =
+  if name == "upper body" || name == "lower body"
+    then mkClass 2 (toCamel name) ++ fst fields ++ generate (snd fields)
+    else "" ++ generate remainder
+      where fields = genFields remainder
+
+genFields tokens =
+  case head tokens of
+    Name name -> (genName name ++ fst result, snd result)
+      where result = genFields (tail tokens)
+    Value def min max -> ((genValue def min max) ++ fst result, snd result)
+      where result = genFields (tail tokens)
+    Close -> (genClose, tail tokens)
+
 genName name =
   if name == "knees forward"
     then ""
