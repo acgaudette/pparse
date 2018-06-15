@@ -217,10 +217,8 @@ mkClass indent name = endl
 mkRange min max = tab 3
   ++ "[Range(" ++ min ++ "f, " ++ max ++ "f)] "
 
-mkField def min max =
-  " = " ++ def ++ "f;"
-  ++ " // (" ++ min ++ ", " ++ max ++ ")"
-  ++ endl
 mkFloat = "public float "
+
+mkField value = " = " ++ value ++ "f;" ++ endl
 
 mkClose = tab 2 ++ "}" ++ endl
