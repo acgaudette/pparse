@@ -84,17 +84,13 @@ parse text opts = header opts ++ generate (scan text) opts ++ footer
 -- Scanning --
 
 scan text =
-  if null text
-    then []
-  else if char == '\''
-    then parseName remainder
-  else if char == '['
-    then parseValue remainder
-  else if char == '}'
-    then parseClose remainder
-  else scan remainder -- Skip
-    where char = head text
-          remainder = tail text
+  if null text then []
+  else case head text of
+    '\'' -> parseName remainder
+    '[' -> parseValue remainder
+    '}' -> parseClose remainder
+    _ -> scan remainder -- Skip
+  where remainder = tail text
 
 parseName text =
   [Name (fst result)] ++ scan (snd result)
