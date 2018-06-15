@@ -67,9 +67,9 @@ header = "namespace AutoToon.Character {\n"
 tab count = concat $ replicate count "  "
 endl = "\n"
 
-struct name = "[System.Serializable]\n"
-  ++ "public struct " ++ name ++ " {"
 
-float = "public float "
+struct indent name =
+  tab indent ++ "[System.Serializable]" ++ endl
+  ++ tab indent ++ "public struct " ++ name ++ " {"
 
 footer = "}\n}"
