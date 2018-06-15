@@ -19,6 +19,31 @@ defaultOptions = Options {
   , optCherries = []
 }
 
+options = [
+    Option ['i'] ["input"] (
+      ReqArg (\ path options -> options { optInput = path })
+      "path"
+    ) "file for reading"
+  , Option ['o'] ["output"] (
+      ReqArg (\ path options -> options { optOutput = path })
+      "path"
+    ) "file for writing"
+  , Option ['n'] ["namespace"] (
+      ReqArg (\ name options -> options { optNamespace = Just name })
+      "namespace"
+    ) "namespace for output header"
+  , Option ['I'] ["ignore"] (
+      ReqArg (\ name options ->
+        options { optIgnores = optIgnores options ++ [name] })
+      "name"
+    ) "property name to ignore"
+  , Option ['C'] ["cherry"] (
+      ReqArg (\ name options ->
+        options { optCherries = optCherries options ++ [name] })
+      "name"
+    ) "container name to parse"
+  ]
+
 main = do
   input <- openFile inPath ReadMode
   output <- openFile outPath WriteMode
