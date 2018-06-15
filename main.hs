@@ -7,6 +7,7 @@ data Options = Options {
     optInput :: String
   , optOutput :: String
   , optNamespace :: Maybe String
+  , optContainer :: Maybe String
   , optIgnores :: [String]
   , optCherries :: [String]
 }
@@ -15,6 +16,7 @@ defaultOptions = Options {
     optInput = "in.js"
   , optOutput = "out.cs"
   , optNamespace = Nothing
+  , optContainer = Nothing
   , optIgnores = []
   , optCherries = []
 }
@@ -32,6 +34,10 @@ options = [
       ReqArg (\ name options -> options { optNamespace = Just name })
       "namespace"
     ) "namespace for output header"
+  , Option ['c'] ["container"] (
+      ReqArg (\ name options -> options { optContainer = Just name })
+      "container"
+    ) "container for output class"
   , Option ['I'] ["ignore"] (
       ReqArg (\ name options ->
         options { optIgnores = optIgnores options ++ [name] })
