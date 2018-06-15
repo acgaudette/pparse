@@ -28,6 +28,8 @@ scan text =
     then parseName (scanName remainder)
   else if char == '['
     then parseValue (scanValue remainder)
+  else if char == '}'
+    then [Close] ++ scan remainder
   else scan remainder
     where char = head text
           remainder = tail text
