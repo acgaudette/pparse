@@ -1,8 +1,23 @@
 import System.IO
+import System.Environment
+import System.Console.GetOpt
 import Data.Char
 
-inPath = "input.js"
-outPath = "out.cs"
+data Options = Options {
+    optInput :: String
+  , optOutput :: String
+  , optNamespace :: Maybe String
+  , optIgnores :: [String]
+  , optCherries :: [String]
+}
+
+defaultOptions = Options {
+    optInput = "in.js"
+  , optOutput = "out.cs"
+  , optNamespace = Nothing
+  , optIgnores = []
+  , optCherries = []
+}
 
 main = do
   input <- openFile inPath ReadMode
