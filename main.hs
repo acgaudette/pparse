@@ -32,6 +32,14 @@ scan text =
     where char = head text
           remainder = tail text
 
+generate tokens =
+  if null tokens
+    then ""
+    else case head tokens of
+      Name name -> genClass name (tail tokens)
+      Value _ _ _ -> generate (tail tokens) -- Ignore
+      Close -> generate (tail tokens) -- Ignore
+
 toCamel name =
   if null name
     then ""
