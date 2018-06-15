@@ -14,6 +14,10 @@ main = do
   hClose input
   hClose output
 
+data Token = Name String
+           | Value String String String
+           | Close
+
 toCamel name =
   if null name
     then ""
