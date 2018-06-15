@@ -51,6 +51,17 @@ getOptions args =
   where message = "Usage: pparse [option...]"
 
 main = do
+  args <- getArgs
+  opts <- getOptions args
+
+  let Options {
+    optInput = inPath,
+    optOutput = outPath,
+    optNamespace = namespace,
+    optIgnores = ignores,
+    optCherries = cherries
+  } = opts
+
   input <- openFile inPath ReadMode
   output <- openFile outPath WriteMode
 
