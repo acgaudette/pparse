@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-rm -f main.hi
-rm -f main.o
+rm -f *.hi
+rm -f *.o
