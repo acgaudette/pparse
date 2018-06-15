@@ -29,7 +29,7 @@ scan text =
   else if char == '['
     then parseValue remainder
   else if char == '}'
-    then [Close] ++ scan remainder
+    then parseClose remainder
   else scan remainder
     where char = head text
           remainder = tail text
@@ -71,6 +71,8 @@ scanNumber text =
     where char = head text
           remainder = tail text
           result = scanNumber $ remainder
+
+parseClose text = [Close] ++ scan text
 
 generate tokens =
   if null tokens
