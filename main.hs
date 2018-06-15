@@ -84,6 +84,8 @@ genValue def min max =
   ++ " // (" ++ min ++ ", " ++ max ++ ")"
   ++ endl
 
+genClose = tab 2 ++ "}" ++ endl
+
 toCamel name =
   if null name
     then ""
