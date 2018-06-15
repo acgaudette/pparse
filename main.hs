@@ -79,6 +79,11 @@ genName name =
     then ""
   else mkFloat ++ toCamel name
 
+genValue def min max =
+  " = " ++ def ++ "f;"
+  ++ " // (" ++ min ++ ", " ++ max ++ ")"
+  ++ endl
+
 toCamel name =
   if null name
     then ""
