@@ -132,21 +132,21 @@ parseClose text = [Close] ++ scan text
 
 -- Generation --
 
-generate tokens ignores cherries =
+generate tokens opts =
   if null tokens
     then ""
     else case head tokens of
-      Name name -> genClass name (tail tokens) ignores cherries
-      otherwise -> generate (tail tokens) ignores cherries -- Skip
+      Name name -> genClass name (tail tokens) opts
+      otherwise -> generate (tail tokens) opts -- Skip
 
-genClass name remainder ignores cherries =
-  if elem name (map munge cherries)
+genClass name remainder opts =
+  if elem name (map munge (optCherries opts))
     then
       mkClass 2 (toCamel name)
       ++ fst fields
-      ++ generate (snd fields) ignores cherries
-    else "" ++ generate remainder ignores cherries
-      where fields = genFields remainder ignores
+      ++ generate (snd fields) opts
+    else "" ++ generate remainder opts
+      where fields = genFields remainder (optIgnores opts)
 
 genFields tokens ignores =
   case head tokens of
