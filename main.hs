@@ -181,7 +181,11 @@ toCamel name =
 endl = "\n"
 tab count = concat $ replicate count "  "
 
-header = "namespace AutoToon.Character {" ++ endl
+header namespace =
+  case namespace of
+    Just name -> "namespace " ++ name ++ " "
+    Nothing -> ""
+  ++ "{" ++ endl
   ++ mkClass 1 "Properties"
 
 footer = tab 1 ++ "}" ++ endl ++ "}" ++ endl
