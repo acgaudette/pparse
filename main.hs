@@ -143,11 +143,10 @@ parseClose text = [Close] ++ scan text
 -- Generation --
 
 generate tokens opts =
-  if null tokens
-    then ""
-    else case head tokens of
-      Container name -> genClass name (tail tokens) opts
-      _ -> generate (tail tokens) opts -- Skip
+  if null tokens then ""
+  else case head tokens of
+    Container name -> genClass name (tail tokens) opts
+    _ -> generate (tail tokens) opts -- Skip
 
 genClass name remainder opts =
   if elem name (map munge (optCherries opts))
