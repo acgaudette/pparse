@@ -146,6 +146,9 @@ mkClass indent name = endl
   ++ tab indent ++ "[System.Serializable]" ++ endl
   ++ tab indent ++ "public class " ++ name ++ " {" ++ endl
 
+mkInstance ofType name = endl
+  ++ tab 2 ++ "public " ++ ofType ++ " " ++ name ++ ";" ++ endl
+
 mkRange min max = tab 3
   ++ "[Range(" ++ min ++ "f, " ++ max ++ "f)] "
 
