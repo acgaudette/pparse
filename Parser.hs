@@ -81,11 +81,13 @@ generate tokens opts =
 genClass name remainder opts =
   if elem name (map munge (optCherries opts))
     then
-      mkClass 2 (toPascal name)
+      mkClass 2 ofType
       ++ fst fields
+      ++ mkInstance ofType (toCamel name)
       ++ generate (snd fields) opts
     else "" ++ generate remainder opts
       where fields = genFields remainder (optIgnores opts)
+            ofType = toPascal name
 
 genFields tokens ignores =
   case head tokens of
