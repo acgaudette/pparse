@@ -58,11 +58,15 @@ namespace Message {
       [Range(-0.5f, 0.5f)] public float nervousSystem = 0.0f;
     }
 
+    public MyMainTheme myMainTheme;
+
     [System.Serializable]
     public class ElectricAge {
       [Range(.05f, .4f)] public float andThus = .09f;
       [Range(.02f, .4f)] public float theComplete = .11f;
     }
+
+    public ElectricAge electricAge;
   }
 }
 ```
