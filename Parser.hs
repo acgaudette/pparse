@@ -86,15 +86,15 @@ genClass name remainder opts =
       ++ mkInstance ofType (toCamel name)
       ++ generate (snd fields) opts
     else "" ++ generate remainder opts
-      where fields = genFields remainder (optIgnores opts)
+      where fields = genFields name remainder (optIgnores opts)
             ofType = toPascal name
 
-genFields tokens ignores =
+genFields container tokens ignores =
   case head tokens of
     Field name -> (genField name next ignores ++ fst result, snd result)
     Value def _ _ -> (mkField def ++ fst result, snd result)
     Close -> (mkClose, tail tokens)
-  where result = genFields (tail tokens) ignores
+  where result = genFields container (tail tokens) ignores
         next = head $ tail tokens
 
 genField name next ignores =
