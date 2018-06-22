@@ -104,7 +104,7 @@ genField container name next ignores =
     Value _ min max -> accessor ++ mkRange min max ++ field
     _ -> tab 3 ++ field
   where camel = toCamel name
-        accessor = mkAccessor (toPascal name) camel name
+        accessor = mkAccessor (toPascal name) camel (container ++ "." ++ name)
         field = mkFloat ++ camel
 
 -- Replace underscore with space
