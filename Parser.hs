@@ -91,13 +91,14 @@ genClass name remainder opts =
 
 genFields container tokens ignores =
   case head tokens of
-    Field name -> (genField name next ignores ++ fst result, snd result)
+    Field name ->
+      (genField container name next ignores ++ fst result, snd result)
     Value def _ _ -> (mkField def ++ fst result, snd result)
     Close -> (mkClose, tail tokens)
   where result = genFields container (tail tokens) ignores
         next = head $ tail tokens
 
-genField name next ignores =
+genField container name next ignores =
   if elem name (map munge ignores) then "" -- Skip ignored names
   else case next of
     Value _ min max -> accessor ++ mkRange min max ++ field
