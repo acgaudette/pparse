@@ -161,11 +161,15 @@ mkFloat = "public float "
 
 mkField value = " = " ++ value ++ "f;" ++ endl
 
+-- FIXME: too long in C#
 mkAccessor ofType field string = endl
-  ++ tab 3 ++ "public " ++ retval ++ " " ++ ofType ++ " { get {" ++ endl
-  ++ tab 4 ++ "return new " ++ retval
-  ++ "(\"" ++ string ++ "\", " ++ field ++ ");" ++ endl
-  ++ tab 3 ++ "} }" ++ endl ++ endl
+  ++ tab 3 ++ "public " ++ retval ++ " " ++ ofType ++ " {" ++ endl
+  ++ tab 4 ++ "get {" ++ endl
+  ++ tab 5 ++ "return new " ++ retval ++ "(" ++ endl
+  ++ tab 6 ++ "\"" ++ string ++ "\", " ++ field ++ endl
+  ++ tab 5 ++ ");" ++ endl
+  ++ tab 4 ++ "}" ++ endl
+  ++ tab 3 ++ "}" ++ endl ++ endl
   where retval = "KeyValuePair<string, float>"
 
 mkClose = tab 2 ++ "}" ++ endl
